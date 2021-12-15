@@ -1,0 +1,12 @@
+.profile{
+  width: 90%;
+  max-width: 400px;
+  border: 1px solid #dcdcdc;
+  padding: 20px;
+  text-align: center;
+}
+
+.profile > span{
+  color: blue;
+  cursor: pointer;
+}

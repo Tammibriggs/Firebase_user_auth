@@ -1,0 +1,25 @@
+.verifyEmail {
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0px 0px 4px hsl(210, 12%, 75%);
+  text-align: center;
+  padding: 40px 20px;
+  background-color: hsl(210, 10%, 98%);
+}
+
+.verifyEmail h1{
+  font-weight: 300;
+  margin-top: 0;
+}
+
+.verifyEmail > p{
+  line-height: 25px;
+}
+
+.verifyEmail > span{
+  color: gray;
+}
+
+.verifyEmail > button {
+  margin-top: 35px;
+}
