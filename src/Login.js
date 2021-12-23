@@ -4,6 +4,7 @@ import './forms.css'
 import {signInWithEmailAndPassword, sendEmailVerification} from 'firebase/auth'
 import {auth} from './firebase'
 import {useHistory} from 'react-router-dom'
+import {useAuthValue} from './AuthContext'
 
 
 function Login(){
@@ -11,6 +12,7 @@ function Login(){
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('') 
   const [error, setError] = useState('')
+  const {setTimeActive} = useAuthValue()
   const history = useHistory()
 
   const login = e => {
@@ -20,6 +22,7 @@ function Login(){
       if(!auth.currentUser.emailVerified) {
         sendEmailVerification(auth.currentUser)
         .then(() => {
+          setTimeActive(true)
           history.push('/verify-email')
         })
       .catch(err => alert(err.message))

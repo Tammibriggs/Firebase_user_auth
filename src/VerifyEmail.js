@@ -39,7 +39,7 @@ function VerifyEmail() {
       clearInterval(interval)
     }
     return () => clearInterval(interval);
-  }, [timeActive, time])
+  }, [timeActive, time, setTimeActive])
 
   const resendEmailVerification = () => {
     sendEmailVerification(auth.currentUser)
