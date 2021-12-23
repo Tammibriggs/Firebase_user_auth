@@ -13,6 +13,7 @@ import {onAuthStateChanged} from 'firebase/auth'
 function App() {
 
   const [currentUser, setCurrentUser] = useState(null)
+  const [timeActive, setTimeActive] = useState(false)
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -22,7 +23,7 @@ function App() {
 
   return (
     <Router>
-      <AuthProvider value={{currentUser}}>
+      <AuthProvider value={{currentUser, timeActive, setTimeActive}}>
         <Switch>
           <Route exact path="/" component={Profile} />
           <Route exact path="/login" component={Login} />

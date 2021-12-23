@@ -1,9 +1,9 @@
 import {useState} from 'react'
-import {Link} from 'react-router-dom'
 import './forms.css'
 import {auth} from './firebase'
-import {createUserWithEmailAndPassword} from 'firebase/auth'
-
+import {useHistory, Link} from 'react-router-dom'
+import {createUserWithEmailAndPassword, sendEmailVerification} from 'firebase/auth'
+import {useAuthValue} from './AuthContext'
 
 function Register() {
 
@@ -11,6 +11,8 @@ function Register() {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
+  const history = useHistory()
+  const {setTimeActive} = useAuthValue()
 
   const validatePassword = () => {
     let isValid = true
@@ -29,9 +31,13 @@ function Register() {
     if(validatePassword()) {
       // Create a new user with email and password using firebase
         createUserWithEmailAndPassword(auth, email, password)
-        .then((res) => {
-            console.log(res.user)
-          })
+        .then(() => {
+          sendEmailVerification(auth.currentUser)   
+          .then(() => {
+            setTimeActive(true)
+            history.push('/verify-email')
+          }).catch((err) => alert(err.message))
+        })
         .catch(err => setError(err.message))
     }
     setEmail('')
