@@ -3,14 +3,14 @@ import {useAuthValue} from './AuthContext'
 import {useState, useEffect} from 'react'
 import {auth} from './firebase'
 import {sendEmailVerification} from 'firebase/auth'
-import {useHistory} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 
 function VerifyEmail() {
 
   const {currentUser} = useAuthValue()
   const [time, setTime] = useState(60)
   const {timeActive, setTimeActive} = useAuthValue()
-  const history = useHistory()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -18,14 +18,14 @@ function VerifyEmail() {
       .then(() => {
         if(currentUser?.emailVerified){
           clearInterval(interval)
-          history.push('/')
+          navigate('/')
         }
       })
       .catch((err) => {
         alert(err.message)
       })
     }, 1000)
-  }, [history, currentUser])
+  }, [navigate, currentUser])
 
   useEffect(() => {
     let interval = null

@@ -1,5 +1,5 @@
 import './App.css';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import Profile from './Profile'
 import Register from './Register'
 import VerifyEmail from './VerifyEmail';
@@ -9,6 +9,7 @@ import {AuthProvider} from './AuthContext'
 import {auth} from './firebase'
 import {onAuthStateChanged} from 'firebase/auth'
 import PrivateRoute from './PrivateRoute'
+import {Navigate} from 'react-router-dom'
 
 function App() {
 
@@ -24,12 +25,24 @@ function App() {
   return (
     <Router>
       <AuthProvider value={{currentUser, timeActive, setTimeActive}}>
-        <Switch>
-          <PrivateRoute exact path="/" component={Profile} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Register} />
-          <Route exact path='/verify-email' component={VerifyEmail} /> 
-        </Switch>  
+        <Routes>
+          <Route exact path='/' element={
+            <PrivateRoute>
+              <Profile/>
+            </PrivateRoute>
+          }/>
+          <Route path="/login" element={
+            !currentUser?.emailVerified 
+            ? <Login/>
+            : <Navigate to='/' replace/>
+          } />
+          <Route path="/register" element={
+            !currentUser?.emailVerified 
+            ? <Register/>
+            : <Navigate to='/' replace/>
+          } />
+          <Route path='/verify-email' element={<VerifyEmail/>} /> 
+        </Routes>  
       </AuthProvider>
   </Router>
   );
